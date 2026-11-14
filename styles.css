@@ -8,8 +8,8 @@ a.external-link.fmhy-potentially_unsafe,
 a.external-link.fmhy-starred,
 a.external-link.fmhy-fmhy,
 a.external-link.fmhy-unknown {
-  background-image: none !important;
-  padding-right: 0 !important;
+  background-image: none;
+  padding-right: 0;
 }
 
 /* Shared SVG status icon styling */
@@ -21,9 +21,9 @@ a.external-link.fmhy-fmhy::after,
 a.external-link.fmhy-unknown::after {
   content: "";
   display: inline-block;
-  width: 1em;
-  height: 1em;
-  margin-left: 0.3em;
+  width: .825em;
+  height: .825em;
+  margin-left: 0.05em;
   vertical-align: middle;
   background-position: center;
   background-repeat: no-repeat;
@@ -65,9 +65,9 @@ a.external-link.fmhy-unknown::after {
 .markdown-source-view.mod-cm6 .fmhy-status-widget::after {
   content: "";
   display: inline-block;
-  width: 1em;
-  height: 1em;
-  margin-left: 0.3em;
+  width: .825em;
+  height: .825em;
+  margin-left: 0.05em;
   vertical-align: middle;
   background-position: center;
   background-repeat: no-repeat;
@@ -102,5 +102,5 @@ a.external-link.fmhy-unknown::after {
 
 /* Hide Obsidian's separate external-link icon */
 .markdown-source-view.mod-cm6 .cm-line .external-link {
-  display: none !important;
+  display: none;
 }

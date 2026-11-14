@@ -204,8 +204,8 @@ var StatusWidget = class _StatusWidget extends import_view.WidgetType {
     this.status = status;
     this.url = url;
   }
-  toDOM() {
-    const element = document.createElement("span");
+  toDOM(view) {
+    const element = view.dom.ownerDocument.createElement("span");
     element.className = `fmhy-status-widget fmhy-${this.status}`;
     element.setAttribute("aria-label", LABELS[this.status]);
     element.setAttribute("title", `${LABELS[this.status]} \u2014 ${this.url}`);
@@ -294,9 +294,10 @@ var FMHYSafeGuardPlugin = class extends import_obsidian.Plugin {
     );
   }
   async loadSettings() {
+    const saved = await this.loadData();
     this.settings = {
       ...DEFAULT_SETTINGS,
-      ...await this.loadData()
+      ...saved ?? {}
     };
   }
   async loadCache() {
@@ -309,9 +310,9 @@ var FMHYSafeGuardPlugin = class extends import_obsidian.Plugin {
     }
   }
   async saveSettings() {
-    const existing = await this.loadData() || {};
+    const existing = await this.loadData();
     await this.saveData({
-      ...existing,
+      ...existing ?? {},
       ...this.settings,
       filterData: this.data
     });
@@ -390,13 +391,14 @@ var FMHYSafeGuardPlugin = class extends import_obsidian.Plugin {
     }
   }
   async fetchText(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(
-        `HTTP ${response.status}: ${url}`
-      );
+    const response = await (0, import_obsidian.requestUrl)({
+      url,
+      method: "GET"
+    });
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(`HTTP ${response.status}: ${url}`);
     }
-    return response.text();
+    return response.text;
   }
   getStatus(url) {
     return classify(url, this.data);
@@ -411,7 +413,8 @@ var FMHYSafeGuardPlugin = class extends import_obsidian.Plugin {
     return true;
   }
   createEditorExtension() {
-    const plugin = this;
+    const getStatus = (url) => this.getStatus(url);
+    const shouldDisplay = (status) => this.shouldDisplay(status);
     return import_view.ViewPlugin.fromClass(
       class {
         constructor(view) {
@@ -444,7 +447,7 @@ var FMHYSafeGuardPlugin = class extends import_obsidian.Plugin {
                 from: linkFrom,
                 to: linkTo
               });
-              this.addStatusWidget(widgets, linkTo, url, plugin);
+              this.addStatusWidget(widgets, linkTo, url);
             }
             const urlRegex = /https?:\/\/[^\s<>"')\]]+/gi;
             while ((match = urlRegex.exec(text)) !== null) {
@@ -455,7 +458,7 @@ var FMHYSafeGuardPlugin = class extends import_obsidian.Plugin {
                 (range) => urlFrom >= range.from && urlTo <= range.to
               );
               if (!insideMarkdownLink) {
-                this.addStatusWidget(widgets, urlTo, url, plugin);
+                this.addStatusWidget(widgets, urlTo, url);
               }
             }
           }
@@ -465,9 +468,9 @@ var FMHYSafeGuardPlugin = class extends import_obsidian.Plugin {
           }
           return builder.finish();
         }
-        addStatusWidget(widgets, pos, url, pluginInstance) {
-          const status = pluginInstance.getStatus(url);
-          if (!pluginInstance.shouldDisplay(status)) {
+        addStatusWidget(widgets, pos, url) {
+          const status = getStatus(url);
+          if (!shouldDisplay(status)) {
             return;
           }
           widgets.push({
@@ -485,7 +488,7 @@ var FMHYSafeGuardPlugin = class extends import_obsidian.Plugin {
     );
   }
   registerSvgVariables() {
-    const root = document.documentElement;
+    const root = activeDocument.documentElement;
     const icons = {
       safe: safe_link_default,
       unsafe: unsafe_link_default,
@@ -513,9 +516,6 @@ var FMHYSettingsTab = class extends import_obsidian.PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    containerEl.createEl("h2", {
-      text: "FMHY SafeGuard"
-    });
     new import_obsidian.Setting(containerEl).setName("Update interval").setDesc("How often to download updated FMHY lists.").addDropdown(
       (dropdown) => dropdown.addOption("6", "Every 6 hours").addOption("12", "Every 12 hours").addOption("24", "Every 24 hours").addOption("48", "Every 48 hours").addOption("168", "Weekly").setValue(
         String(this.plugin.settings.updateInterval)

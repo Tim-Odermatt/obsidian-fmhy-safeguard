@@ -5,7 +5,8 @@ import {
   Setting,
   Notice,
   MarkdownPostProcessor,
-  editorLivePreviewField
+  editorLivePreviewField,
+  requestUrl
 } from "obsidian";
 
 import {
@@ -240,12 +241,14 @@ class StatusWidget extends WidgetType {
     super();
   }
 
-  toDOM(): HTMLElement {
-    const element = document.createElement("span");
+  toDOM(view: EditorView): HTMLElement {
+    const element = view.dom.ownerDocument.createElement("span");
+
     element.className = `fmhy-status-widget fmhy-${this.status}`;
     element.setAttribute("aria-label", LABELS[this.status]);
     element.setAttribute("title", `${LABELS[this.status]} — ${this.url}`);
     element.setAttribute("contenteditable", "false");
+
     return element;
   }
 
@@ -324,32 +327,37 @@ export default class FMHYSafeGuardPlugin extends Plugin {
   }
 
   async loadSettings() {
+    const saved = await this.loadData() as Partial<Settings> | null;
+
     this.settings = {
       ...DEFAULT_SETTINGS,
-      ...await this.loadData()
+      ...(saved ?? {})
     };
   }
 
-    private async loadCache() {
-    const saved = await this.loadData();
+  private async loadCache() {
+    const saved = await this.loadData() as {
+      filterData?: Partial<FMHYData>;
+    } | null;
 
-        if (saved?.filterData) {
-            this.data = {
-            ...this.data,
-            ...saved.filterData
-            };
-        }
+    if (saved?.filterData) {
+      this.data = {
+        ...this.data,
+        ...saved.filterData
+      };
     }
+  }
 
-    async saveSettings() {
-    const existing = await this.loadData() || {};
+  async saveSettings() {
+    const existing = await this.loadData() as
+      Record<string, unknown> | null;
 
     await this.saveData({
-        ...existing,
-        ...this.settings,
-        filterData: this.data
+      ...(existing ?? {}),
+      ...this.settings,
+      filterData: this.data
     });
-    }
+  }
 
   private async saveCache() {
     const settingsData = {
@@ -448,15 +456,16 @@ export default class FMHYSafeGuardPlugin extends Plugin {
   }
 
   private async fetchText(url: string): Promise<string> {
-    const response = await fetch(url);
+    const response = await requestUrl({
+      url,
+      method: "GET"
+    });
 
-    if (!response.ok) {
-      throw new Error(
-        `HTTP ${response.status}: ${url}`
-      );
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(`HTTP ${response.status}: ${url}`);
     }
 
-    return response.text();
+    return response.text;
   }
 
   getStatus(url: string): Status {
@@ -506,7 +515,11 @@ export default class FMHYSafeGuardPlugin extends Plugin {
   };
 
   private createEditorExtension() {
-    const plugin = this;
+    const getStatus = (url: string): Status =>
+      this.getStatus(url);
+
+    const shouldDisplay = (status: Status): boolean =>
+      this.shouldDisplay(status);
 
     return ViewPlugin.fromClass(
       class {
@@ -561,7 +574,7 @@ export default class FMHYSafeGuardPlugin extends Plugin {
               });
 
               // Place the status widget after the complete Markdown link.
-              this.addStatusWidget(widgets, linkTo, url, plugin);
+              this.addStatusWidget(widgets, linkTo, url);
             }
 
             const urlRegex = /https?:\/\/[^\s<>"')\]]+/gi;
@@ -577,7 +590,7 @@ export default class FMHYSafeGuardPlugin extends Plugin {
 
               if (!insideMarkdownLink) {
                 // Plain URLs get their status immediately after the URL.
-                this.addStatusWidget(widgets, urlTo, url, plugin);
+                this.addStatusWidget(widgets, urlTo, url);
               }
             }
           }
@@ -594,12 +607,11 @@ export default class FMHYSafeGuardPlugin extends Plugin {
         private addStatusWidget(
           widgets: { pos: number; decoration: Decoration }[],
           pos: number,
-          url: string,
-          pluginInstance: FMHYSafeGuardPlugin
+          url: string
         ) {
-          const status = pluginInstance.getStatus(url);
+          const status = getStatus(url);
 
-          if (!pluginInstance.shouldDisplay(status)) {
+          if (!shouldDisplay(status)) {
             return;
           }
 
@@ -620,7 +632,7 @@ export default class FMHYSafeGuardPlugin extends Plugin {
 
 
   private registerSvgVariables(): void {
-      const root = document.documentElement;
+      const root = activeDocument.documentElement;
 
       const icons: Record<string, string> = {
           safe: safeSvg,
@@ -658,10 +670,6 @@ class FMHYSettingsTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     containerEl.empty();
-
-    containerEl.createEl("h2", {
-      text: "FMHY SafeGuard"
-    });
 
     new Setting(containerEl)
       .setName("Update interval")
