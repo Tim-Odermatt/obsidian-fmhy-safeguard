@@ -25,10 +25,6 @@
 
 ***
 
-Install "[Obsidian FMHY SafeGuard](https://community.obsidian.md/plugins/)"
-
-***
-
 # 🌟 Key Features
 - **Real-time Site Status**: Instant feedback on whether a site is starred, safe, unsafe, or potentially unsafe, with visual link icons.
 - **Updated Filterlists**: Utilizes the frequently updated FMHY filterlist to ensure protection from the latest unsafe domains.

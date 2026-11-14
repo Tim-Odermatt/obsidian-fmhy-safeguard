@@ -1,0 +1,99 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in Obsidian-FMHY-SafeGuard.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+
+        Before submitting, please check whether an issue about this problem already exists.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what went wrong.
+      placeholder: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Explain how to reproduce the issue.
+      placeholder: |
+        1. Open a note.
+        2. Click or hover over a link.
+        3. Observe the unexpected behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or screen recordings
+      description: Add screenshots or recordings if they help explain the issue.
+    validations:
+      required: false
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: FMHY SafeGuard version
+      description: Find this under Settings → Community plugins → FMHY SafeGuard.
+      placeholder: "1.0.1"
+    validations:
+      required: true
+
+  - type: input
+    id: obsidian-version
+    attributes:
+      label: Obsidian version
+      placeholder: "e.g. 1.15.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Android
+        - iOS
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: Console errors
+      description: |
+        If applicable, open Developer Tools (Ctrl+Shift+I on Windows/Linux,
+        Cmd+Option+I on macOS), select Console, and paste any relevant errors.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Any other information that might help us understand the problem.
+    validations:
+      required: false
