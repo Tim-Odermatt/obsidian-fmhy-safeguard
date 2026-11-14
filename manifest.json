@@ -1,0 +1,9 @@
+{
+  "id": "fmhy-safeguard",
+  "name": "FMHY SafeGuard",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Shows FMHY SafeGuard classifications next to external links.",
+  "author": "Community",
+  "isDesktopOnly": false
+}

@@ -1,0 +1,106 @@
+/* ================================
+   FMHY SafeGuard — Reading View
+   ================================ */
+
+a.external-link.fmhy-safe,
+a.external-link.fmhy-unsafe,
+a.external-link.fmhy-potentially_unsafe,
+a.external-link.fmhy-starred,
+a.external-link.fmhy-fmhy,
+a.external-link.fmhy-unknown {
+  background-image: none !important;
+  padding-right: 0 !important;
+}
+
+/* Shared SVG status icon styling */
+a.external-link.fmhy-safe::after,
+a.external-link.fmhy-unsafe::after,
+a.external-link.fmhy-potentially_unsafe::after,
+a.external-link.fmhy-starred::after,
+a.external-link.fmhy-fmhy::after,
+a.external-link.fmhy-unknown::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-left: 0.3em;
+  vertical-align: middle;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* Individual SVGs */
+a.external-link.fmhy-safe::after {
+  background-image: var(--fmhy-safe-icon);
+}
+
+a.external-link.fmhy-unsafe::after {
+  background-image: var(--fmhy-unsafe-icon);
+}
+
+a.external-link.fmhy-potentially_unsafe::after {
+  background-image: var(--fmhy-warning-icon);
+}
+
+a.external-link.fmhy-starred::after {
+  background-image: var(--fmhy-starred-icon);
+}
+
+a.external-link.fmhy-fmhy::after {
+  background-image: var(--fmhy-fmhy-icon);
+}
+
+a.external-link.fmhy-unknown::after {
+  background-image: var(--fmhy-external-icon);
+}
+
+
+
+/* ================================
+   FMHY SafeGuard — Live Preview
+   ================================ */
+
+/* Shared SVG icon styling */
+.markdown-source-view.mod-cm6 .fmhy-status-widget::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-left: 0.3em;
+  vertical-align: middle;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* Individual SVG status icons */
+
+.markdown-source-view.mod-cm6 .fmhy-status-widget.fmhy-safe::after {
+  background-image: var(--fmhy-safe-icon);
+}
+
+.markdown-source-view.mod-cm6 .fmhy-status-widget.fmhy-unsafe::after {
+  background-image: var(--fmhy-unsafe-icon);
+}
+
+.markdown-source-view.mod-cm6 .fmhy-status-widget.fmhy-potentially_unsafe::after {
+  background-image: var(--fmhy-warning-icon);
+}
+
+.markdown-source-view.mod-cm6 .fmhy-status-widget.fmhy-starred::after {
+  background-image: var(--fmhy-starred-icon);
+}
+
+.markdown-source-view.mod-cm6 .fmhy-status-widget.fmhy-fmhy::after {
+  background-image: var(--fmhy-fmhy-icon);
+}
+
+.markdown-source-view.mod-cm6 .fmhy-status-widget.fmhy-unknown::after {
+  background-image: var(--fmhy-external-icon);
+}
+
+/* Hide Obsidian's separate external-link icon */
+.markdown-source-view.mod-cm6 .cm-line .external-link {
+  display: none !important;
+}
