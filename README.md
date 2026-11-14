@@ -25,7 +25,7 @@
 
 ***
 
-Install "Obsidian FMHY SafeGuard"
+Install "[Obsidian FMHY SafeGuard](https://community.obsidian.md/plugins/)"
 
 ***
 
@@ -43,15 +43,12 @@ Install "Obsidian FMHY SafeGuard"
 # 🚀 Get Started
 
 To start using FMHY SafeGuard, follow these steps:
-1. Download the extension from the [Releases page](https://github.com/fmhy/FMHY-SafeGuard/releases) or the [Firefox page](https://addons.mozilla.org/en-US/firefox/addon/fmhy-safeguard/)/[Chrome Page](https://chromewebstore.google.com/detail/fmhy-safeguard/ihcppnlmkfeclmehgdhjkglkbmiemnmp).
-2. Install it into your browser and start browsing securely.
-3. Customize settings, such as theme, filtered site count, warning page toggles, and filter update frequency.
+1. Install the extension from [Obsidian Plugins](https://community.obsidian.md/search?type=plugin)
+2. Enable the Plugin
 
-# 💬 Support & Contributions
+# 💬 Support
 
-For questions or support, feel free to open an issue on [GitHub] (https://github.com/ /issues). If you'd like to contribute, check out our contribution guidelines.
-
-For local setup, testing, builds, and the code layout, see [Development] (CONTRIBUTING.md).
+For questions or support, feel free to open an issue on [GitHub](https://github.com/Tim-Odermatt/obsidian-fmhy-safeguard/issues). If you'd like to contribute, check out our contribution guidelines.
 
 # 📜 Credits
 - [FMHY Filterlist](https://github.com/fmhy/FMHYFilterlist), the service used to detect unsafe/potentially unsafe sites, created by FMHY
