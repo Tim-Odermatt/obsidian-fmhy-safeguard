@@ -21,6 +21,13 @@ import {
   RangeSetBuilder
 } from "@codemirror/state";
 
+import safeSvg from "../svg/safe-link.svg";
+import unsafeSvg from "../svg/unsafe-link.svg";
+import warningSvg from "../svg/warning-link.svg";
+import starredSvg from "../svg/starred-link.svg";
+import fmhySvg from "../svg/fmhy-link.svg";
+import externalSvg from "../svg/external-link.svg";
+
 type Status =
   | "unsafe"
   | "potentially_unsafe"
@@ -611,29 +618,29 @@ export default class FMHYSafeGuardPlugin extends Plugin {
     );
   }
 
+
   private registerSvgVariables(): void {
-    const root = document.documentElement;
+      const root = document.documentElement;
 
-    const icons: Record<string, string> = {
-        safe: "safe-link.svg",
-        unsafe: "unsafe-link.svg",
-        warning: "warning-link.svg",
-        starred: "starred-link.svg",
-        fmhy: "fmhy-link.svg",
-        external: "external-link.svg"
-    };
+      const icons: Record<string, string> = {
+          safe: safeSvg,
+          unsafe: unsafeSvg,
+          warning: warningSvg,
+          starred: starredSvg,
+          fmhy: fmhySvg,
+          external: externalSvg
+      };
 
-    for (const [name, filename] of Object.entries(icons)) {
-        const path = this.app.vault.adapter.getResourcePath(
-            `${this.manifest.dir}/svg/${filename}`
-        );
+      for (const [name, svg] of Object.entries(icons)) {
+          const encoded = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 
-        root.style.setProperty(
-            `--fmhy-${name}-icon`,
-            `url("${path}")`
-        );
-    }
-}
+          root.style.setProperty(
+              `--fmhy-${name}-icon`,
+              `url("${encoded}")`
+          );
+      }
+  }
+
 
   onunload() {
     // Obsidian automatically unregisters plugin extensions.

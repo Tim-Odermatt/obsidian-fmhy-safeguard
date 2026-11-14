@@ -10,6 +10,11 @@ const context = await esbuild.context({
   platform: "browser",
   target: "es2020",
 
+  // Import SVG files as text so they are embedded in main.js
+  loader: {
+    ".svg": "text"
+  },
+
   external: [
     "obsidian",
     "electron",
