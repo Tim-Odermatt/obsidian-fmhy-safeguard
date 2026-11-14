@@ -1,17 +1,17 @@
-# Protect Obsidianlinks with "Obsidian FMHY SafeGuard": Easy Filterlist Integration.
+# Obsidian FMHY SafeGuard
 
-# What is FMHY SafeGuard?
+## What is Obsidian FMHY SafeGuard?
 
 **Obsidian FMHY SafeGuard** is a Obsidian plugin that keeps you safe by checking websites against the latest filterlists from [FMHY Filterlist](https://github.com/fmhy/FMHYFilterlist). The extension categorizes websites as starred, safe, unsafe, or potentially dangerous, giving you peace of mind while linking sites.
 
 <div align="center">
   <table>
     <tr>
-      <td><img src="https://github.com/fmhy/FMHY-SafeGuard/blob/main/assets/icons/default.png" style="width: 144px"></td>
-      <td><img src="https://github.com/fmhy/FMHY-SafeGuard/blob/main/assets/icons/starred.png" style="width: 144px"></td>
-      <td><img src="https://github.com/fmhy/FMHY-SafeGuard/blob/main/assets/icons/safe.png" style="width: 144px"></td>
-      <td><img src="https://github.com/fmhy/FMHY-SafeGuard/blob/main/assets/icons/potentially_unsafe.png" style="width: 144px"></td>
-      <td><img src="https://github.com/fmhy/FMHY-SafeGuard/blob/main/assets/icons/unsafe.png" style="width: 144px"></td>
+      <td><img src="https://github.com/Tim-Odermatt/obsidian-fmhy-safeguard/blob/main/svg/external-link.svg" style="width: 144px"></td>
+      <td><img src="https://github.com/Tim-Odermatt/obsidian-fmhy-safeguard/blob/main/svg/starred-link.svg" style="width: 144px"></td>
+      <td><img src="https://github.com/Tim-Odermatt/obsidian-fmhy-safeguard/blob/main/svg/safe-link.svg" style="width: 144px"></td>
+      <td><img src="https://github.com/Tim-Odermatt/obsidian-fmhy-safeguard/blob/main/svg/warning-link.svg" style="width: 144px"></td>
+      <td><img src="https://github.com/Tim-Odermatt/obsidian-fmhy-safeguard/blob/main/svg/unsafe-link.svg" style="width: 144px"></td>
     </tr>
     <tr>
       <td>Not in Wiki</td>
